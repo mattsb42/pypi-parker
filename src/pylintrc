@@ -1,0 +1,5 @@
+[FORMAT]
+max-line-length = 120
+
+[REPORTS]
+msg-template = {path}:{line}: [{msg_id}({symbol}), {obj}] {msg}

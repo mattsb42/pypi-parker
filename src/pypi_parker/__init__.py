@@ -10,7 +10,9 @@ __version__ = '0.0.28'
 
 
 class Park(distutils.cmd.Command):
-    """Command for reading a :class:`pypi-parker` configuration and building distribution files for each name."""
+    """Distutils Command for reading a :class:`pypi-parker` configuration
+    and building distribution files for each name.
+    """
 
     decription = 'Generates builds for all configured PyPI names'
     user_options = [

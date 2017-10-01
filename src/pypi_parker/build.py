@@ -1,12 +1,10 @@
-""""""
+"""Tooling to generate and build ephemeral packages based on package configurations."""
 import glob
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
-
-import attr
 
 from pypi_parker.config import SETUP_CONFIG
 from pypi_parker.util import SpecificTemporaryFile
@@ -23,8 +21,7 @@ def _setup_body(setup_conf: SETUP_CONFIG) -> str:
         The setup.py generated here will raise an ImportError for every actions
         except for those whitelisted for use when building the package.
 
-    :param dict setup_conf: Setup config for which to generate setup.py
-    :rtype: str
+    :param setup_conf: Setup config for which to generate setup.py
     """
     return os.linesep.join([
         'import sys',
@@ -53,8 +50,8 @@ def generate_and_build_package(package_config: SETUP_CONFIG, origin_directory: s
     """Generates, validates, and builds a package using the specified configuration and places
     the resulting distributable files in ``{origin_directory}/dist``.
 
-    :param dist package_config: Package setup configuration
-    :param str origin_directory: Filepath to desired base output directory
+    :param package_config: Package setup configuration
+    :param origin_directory: Filepath to desired base output directory
     """
 
     with tempfile.TemporaryDirectory() as tmpdirname:

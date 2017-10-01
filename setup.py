@@ -36,20 +36,21 @@ setup(
     url='https://github.com/mattsb42/pypi-parker',
     description='',
     long_description=read('README.rst'),
-    keywords='pypi warehouse typosquating',
+    keywords='pypi warehouse distutils typosquating',
     license='Apache License 2.0',
     install_requires=get_requirements(),
     classifiers=[
         # 'Development Status :: 5 - Production/Stable',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: Implementation :: CPython'
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Topic :: System :: Software Distribution',
+        'Topic :: Utilities'
     ],
     entry_points={
         'distutils.commands': [

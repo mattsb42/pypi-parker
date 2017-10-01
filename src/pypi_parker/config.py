@@ -1,4 +1,4 @@
-""""""
+"""Tooling to generate package configurations from configuration files."""
 import configparser
 from typing import Dict, Iterator, Sequence, Union
 
@@ -17,8 +17,7 @@ SETUP_CONFIG = Dict[str, Union[str, Sequence[str]]]
 def _string_literal_to_lines(string_literal: str) -> Sequence[str]:
     """Split a string literal into lines.
 
-    :param str string_literal: Source to split
-    :rtype: list of str
+    :param string_literal: Source to split
     """
     return [
         line.strip() for line
@@ -30,8 +29,7 @@ def _generate_setup(config: configparser.ConfigParser, name: str) -> SETUP_CONFI
     """Generate a ``setuptools.setup`` call for ``name`` from ``config``.
 
     :param config: Loaded parker config
-    :type config: configparser.ConfigParser
-    :param str name:
+    :param name: Package name for which to generate setup config
     """
     setup_base = {}  # type: SETUP_CONFIG
     if name in config:
@@ -67,7 +65,10 @@ def _generate_setup(config: configparser.ConfigParser, name: str) -> SETUP_CONFI
 
 
 def load_config(filename: str) -> Iterator[SETUP_CONFIG]:
-    """Load ``parker.conf`` and generate all ``setuptools.setup`` calls."""
+    """Load ``parker.conf`` and generate all ``setuptools.setup`` calls.
+
+    :param filename: Filename of configuation file to load
+    """
     config = configparser.ConfigParser()
     config.read(filename)
 

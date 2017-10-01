@@ -2,15 +2,37 @@
 pypi-parker
 ###########
 
-<TODO: ADD REASON FOR EXISTENCE>
+``pypi-parker`` lets you easily park package names on PyPI to protect users of your packages
+from typosquatting.
 
+`Typosquatting`_ is a problem: in general, but also on PyPI. There are efforts being taken
+by pypa to `protect core library names`_, but this does not (and really cannot and probably
+should not attempt to) help individual package owners. For example, ``reqeusts`` rather than
+``requests``, or ``crytpography`` rather than ``cryptography``. Because of the self-serve
+nature of PyPI, individual package owners are left to their own devices to protect their users.
+This is not inherently a problem: in my opinion this is a reasonable balance to keep the barrier
+to entry for publishing PyPI package low. However, tooling should exist to make it easy for
+package owners to protect their users. That is what ``pypi-parker`` sets out to do.
+
+Objectives
+**********
+* Self-serve is a good thing. Let's not try and get rid of that. Work with it instead.
+* Package owners should be able to easily protect users of their packages from malicious typosquatting.
+* It should be easy for package owners to introduce ``pypi-parker`` into their existing package builds.
+* Parked packages should:
+
+    * fail fast and not `do anything else`_
+    * be self documenting, both in metadata and in source
+    * contain functionally complete ``setup.py`` files to allow whitelisted external validators to work
+
+        * The `readme_renderer`_ validator is run on each generated package before building.
 
 What does it do?
 ****************
-``pypi-parker`` provides a custom distutils Command ``park`` that interprets a provided config file
-to generate empty Python packages. These packages will always throw an ImportError when someone tries
-to install them, and you can customize the message that they throw to help guide users to the correct
-package.
+``pypi-parker`` provides a custom distutils command ``park`` that interprets a provided config
+file to generate empty Python package source distributables. These packages will always throw
+an ImportError when someone tries to install them. You can customize the ImportError message
+to help guide users to the correct package.
 
 Using the Config File
 =====================
@@ -18,31 +40,53 @@ Using the Config File
 to include with each.
 
 There are two special sections: ``names`` and ``DEFAULT``.
-* ``DEFAULT`` :: Values in ``DEFAULT`` are used if that key is not present in a package-specific section.
-* ``names`` :: Keys in ``names`` are interpretted as package names that should all use only the values in ``DEFAULT``.
 
-If you want to specify custom values for certain packages, you can add additional sections for those packages.
-For any sections found aside from ``DEFAULT`` and ``names``, the section name is used as the package name.
+* ``DEFAULT`` : Values in ``DEFAULT`` are used if that key is not present in a package-specific section.
+* ``names`` : Keys in ``names`` are interpretted as package names that should all use only the values in ``DEFAULT``.
 
-With one exception (explained below), all key/value pairs loaded for each package are loaded
-directly into the ``setup`` call for that generated package.
+Unless otherwise indicated, all key/value pairs loaded for each package are loaded directly
+into the ``setup`` call for that generated package.
 
-The ``description_keys`` key has special behavior: the line-delimited value is used with ``str.format``
-to build the final ``description`` value.
+Special Packages
+----------------
 
-Additionally, multiple lines may be provided for the ``classifiers``, and these will be split into separate entries.
+If you want to specify custom values for specific packages, you can add additional sections
+for those packages. For any sections found aside from ``DEFAULT`` and ``names``, the section
+name is used as the package name.
 
-If ``long_description`` is not defined, ``description`` is used for ``long_description``.
+Special Section Keys
+--------------------
 
-The ``description`` value is used for the ``ImportError`` message in the generated ``setup.py``.
+* ``description_keys`` : This line-delimited value is used with ``str.format`` to build the
+    final ``description`` value.
+* ``classifiers`` : If multiple lines are provided for this value, and each line will be treated
+    as a separate entry.
+* ``long_description`` : If not defined, ``description`` is used.
+* ``description`` : This value is also used for the ``ImportError`` message in the generated
+    ``setup.py``.
 
-For example:
+Default Values
+==============
+* **config file name** : ``park.cfg``
+* **classifiers** : ``Development Status :: 7 - Inactive``
+* **description** :
 
-.. code::
+    .. code-block:: none
+
+        This package has been parked either for future use or to protect against typo misdirection.
+        If you believe that it has been parked in error, please contact the package owner.
+
+Example
+-------
+
+.. code-block:: ini
+    :caption: park.cfg
+
+    [DEFAULT]
+    author: mattsb42
 
     [my-package-name]
-    author: Me, who else?
-    url: https://github.com/my/package-name
+    url: https://github.com/mattsb42/my-package-name
     description: This package is parked by {author}. See {url} for more information.
     description_keys:
         author
@@ -52,9 +96,14 @@ For example:
         Operating System :: OS Independent
         Topic :: Utilities
 
-Will result in:
+.. code-block:: python
+    :caption: Generated setup.py
 
-.. code:: python
+    from setuptools import setup
+
+    args = ' '.join(sys.argv).strip()
+    if not any(args.endswith(suffix) for suffix in ['setup.py sdist', 'setup.py check -r -s']):
+        raise ImportError('This package is parked by mattsb42. See https://github.com/mattsb42/my-package-name for more information.')
 
     setup(
         author='mattsb42',
@@ -67,9 +116,8 @@ Will result in:
         ]
     )
 
-And if someone tries to install it:
-
-.. code::
+.. code-block:: sh
+    :caption: Install attempt
 
     $ pip install my-package-name
     Processing my-package-name
@@ -83,31 +131,43 @@ And if someone tries to install it:
         ----------------------------------------
     Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-oma2zoy6-build/
 
-
-Default Values
-==============
-* ``config file name`` : ``park.cfg``
-* ``classifiers`` : ``Development Status :: 7 - Inactive``
-* ``description`` : ``This package has been parked either for future use or to protect against typo misdirection.``
-    ``If you believe that it has been parked in error, please contact the package owner.``
-
 Ok, how do I use it?
 ********************
 It's pretty simple, really.
 
 #. Install ``pypi-parker`` wherever you will be running your builds.
+
+    .. code-block:: sh
+
+        pip install pypi-parker
+
 #. Define the package names you want to target in your config file.
-#. Call ``python setup.py park``.
-    * If you want to use a custom config file, specify: ``python setup.py park --park-config={filename}``
+#. Call ``setup.py`` with the ``park`` command.
+
+    .. code-block:: sh
+
+        python setup.py park
+
+    * If you want to use a custom config file, specify it with the ``park-config`` argument.
+
+        .. code-block:: sh
+    
+            python setup.py park --park-config={filename}
+
 #. Upload the resulting contents of ``dist`` to your package index of choice.
 
-Example setup.py
-================
+.. code-block:: ini
+    :caption: Example tox configuration
 
-.. code:: python
-
-    from setuptools import setup
-
-    setup(install_requires=['pypi-parker'])
+    [testenv:park]
+    basepython = python3.6
+    deps = 
+        setuptools
+        pypi-parker
+    commands = python setup.py park
 
 .. _configparser: https://docs.python.org/3/library/configparser.html
+.. _do anything else: http://incolumitas.com/2016/06/08/typosquatting-package-managers/
+.. _readme_renderer: https://github.com/pypa/readme_renderer
+.. _Typosquatting: https://en.wikipedia.org/wiki/Typosquatting
+.. _protect core library names: https://github.com/pypa/warehouse/issues/2151

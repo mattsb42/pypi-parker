@@ -26,7 +26,7 @@ def read(*args):
 
 def get_release():
     """Reads the release (full three-part version number) from this module."""
-    init = read('..', 'src', 'aws_encryption_sdk', 'identifiers.py')
+    init = read('..', 'src', 'pypi_parker', '__init__.py')
     return VERSION_RE.search(init).group(1)
 
 
@@ -56,11 +56,19 @@ def get_version():
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc',
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx_autodoc_typehints',
+    'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
-    'sphinx.ext.viewcode']
+    'sphinx.ext.viewcode'
+]
+autosummary_generate = True
+autoclass_content = 'both'
+autodoc_default_flags = ['show-inheritance', 'members']
+autodoc_member_order = 'bysource'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

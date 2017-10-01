@@ -6,7 +6,11 @@ __all__ = ('SpecificTemporaryFile',)
 
 
 class SpecificTemporaryFile(object):
-    """Context manager for temporary files with a known desired name and body."""
+    """Context manager for temporary files with a known desired name and body.
+
+    :param name: Filename of file to create
+    :param body: Data to write to file
+    """
 
     def __init__(self, name: str, body: str) -> None:
         """Initialize parameters."""
@@ -22,7 +26,8 @@ class SpecificTemporaryFile(object):
         """Delete the created file."""
         os.remove(self.name)
 
-    def __enter__(self) -> SpecificTemporaryFile:
+    def __enter__(self):
+        # type: () -> SpecificTemporaryFile
         """Create the specified file and write the body on enter."""
         self._write_file()
         return self

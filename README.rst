@@ -34,6 +34,8 @@ Additionally, multiple lines may be provided for the ``classifiers``, and these 
 
 If ``long_description`` is not defined, ``description`` is used for ``long_description``.
 
+The ``description`` value is used for the ``ImportError`` message in the generated ``setup.py``.
+
 For example:
 
 .. code::
@@ -65,12 +67,29 @@ Will result in:
         ]
     )
 
+And if someone tries to install it:
+
+.. code::
+
+    $ pip install my-package-name
+    Processing my-package-name
+        Complete output from command python setup.py egg_info:
+        Traceback (most recent call last):
+          File "<string>", line 1, in <module>
+          File "/tmp/pip-oma2zoy6-build/setup.py", line 6, in <module>
+            raise ImportError('This package is parked by mattsb42. See https://github.com/mattsb42/my-package-name for more information.',)
+        ImportError: This package is parked by mattsb42. See https://github.com/mattsb42/my-package-name for more information.
+
+        ----------------------------------------
+    Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-oma2zoy6-build/
+
+
 Default Values
 ==============
 * ``config file name`` : ``park.cfg``
 * ``classifiers`` : ``Development Status :: 7 - Inactive``
-* ``description`` : ``This package has been parked either for future use or to protect against
-    typo misdirection. If you believe that it has been parked in error, please contact the package owner.``
+* ``description`` : ``This package has been parked either for future use or to protect against typo misdirection.``
+    ``If you believe that it has been parked in error, please contact the package owner.``
 
 Ok, how do I use it?
 ********************
@@ -83,7 +102,7 @@ It's pretty simple, really.
 #. Upload the resulting contents of ``dist`` to your package index of choice.
 
 Example setup.py
-^^^^^^^^^^^^^^^^
+================
 
 .. code:: python
 

@@ -21,11 +21,11 @@ Objectives
 * It should be easy for package owners to introduce ``pypi-parker`` into their existing package builds.
 * Parked packages should:
 
-    * fail fast and not `do anything else`_
-    * be self documenting, both in metadata and in source
-    * contain functionally complete ``setup.py`` files to allow whitelisted external validators to work
+  * fail fast and not `do anything else`_
+  * be self documenting, both in metadata and in source
+  * contain functionally complete ``setup.py`` files to allow whitelisted external validators to work
 
-        * The `readme_renderer`_ validator is run on each generated package before building.
+    * The `readme_renderer`_ validator is run on each generated package before building.
 
 What does it do?
 ****************
@@ -58,12 +58,12 @@ Special Section Keys
 --------------------
 
 * ``description_keys`` : This line-delimited value is used with ``str.format`` to build the
-    final ``description`` value.
+  final ``description`` value.
 * ``classifiers`` : If multiple lines are provided for this value, and each line will be treated
-    as a separate entry.
+  as a separate entry.
 * ``long_description`` : If not defined, ``description`` is used.
 * ``description`` : This value is also used for the ``ImportError`` message in the generated
-    ``setup.py``.
+  ``setup.py``.
 
 Default Values
 ==============
@@ -73,8 +73,8 @@ Default Values
 
     .. code-block:: text
 
-        This package has been parked either for future use or to protect against typo misdirection.
-        If you believe that it has been parked in error, please contact the package owner.
+      This package has been parked either for future use or to protect against typo misdirection.
+      If you believe that it has been parked in error, please contact the package owner.
 
 Example
 -------
@@ -137,26 +137,26 @@ Example
 Ok, how do I use it?
 ********************
 
-#. Install ``pypi-parker`` wherever you will be running your builds.
+1. Install ``pypi-parker`` wherever you will be running your builds.
+
+  .. code-block:: sh
+
+    pip install pypi-parker
+
+2. Define the package names you want to target in your config file.
+3. Call ``setup.py`` with the ``park`` command.
+
+  .. code-block:: sh
+
+    python setup.py park
+
+  * If you want to use a custom config file, specify it with the ``park-config`` argument.
 
     .. code-block:: sh
 
-        pip install pypi-parker
+      python setup.py park --park-config={filename}
 
-#. Define the package names you want to target in your config file.
-#. Call ``setup.py`` with the ``park`` command.
-
-    .. code-block:: sh
-
-        python setup.py park
-
-    * If you want to use a custom config file, specify it with the ``park-config`` argument.
-
-        .. code-block:: sh
-
-            python setup.py park --park-config={filename}
-
-#. Upload the resulting contents of ``dist`` to your package index of choice.
+4. Upload the resulting contents of ``dist`` to your package index of choice.
 
 **Example tox configuration**
 

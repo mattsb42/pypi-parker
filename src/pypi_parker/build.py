@@ -11,6 +11,7 @@ from pypi_parker.util import SpecificTemporaryFile
 
 __all__ = ('generate_and_build_package',)
 ALLOWED_SETUP_SUFFIXES = ('setup.py sdist', 'setup.py check -r -s')
+MANIFEST = 'include setup.py'
 
 
 def _setup_body(setup_conf: SETUP_CONFIG) -> str:
@@ -38,11 +39,11 @@ def _setup_body(setup_conf: SETUP_CONFIG) -> str:
     ]).format(
         error=repr(ImportError(setup_conf['description'])),
         config=',{linesep}    '.join([
-            '{}= {}'.format(key, repr(value))
+            '{}={}'.format(key, repr(value))
             for key, value
-            in setup_conf.items()
+            in sorted(setup_conf.items(), key=lambda item: item[0])
         ]).format(linesep=os.linesep),
-        allowed_suffixes=', '.join(repr(each) for each in ALLOWED_SETUP_SUFFIXES)
+        allowed_suffixes=', '.join(repr(each) for each in sorted(ALLOWED_SETUP_SUFFIXES))
     )
 
 
@@ -53,6 +54,7 @@ def generate_and_build_package(package_config: SETUP_CONFIG, origin_directory: s
     :param package_config: Package setup configuration
     :param origin_directory: Filepath to desired base output directory
     """
+    os.makedirs(os.path.join(origin_directory, 'dist'), exist_ok=True)
 
     with tempfile.TemporaryDirectory() as tmpdirname:
 
@@ -65,7 +67,7 @@ def generate_and_build_package(package_config: SETUP_CONFIG, origin_directory: s
 
         manifest_in = SpecificTemporaryFile(
             name=os.path.join(tmpdirname, 'MANIFEST.in'),
-            body='include setup.py'
+            body=MANIFEST
         )
 
         with setup_py, manifest_in:

@@ -1,0 +1,10 @@
+{
+    "name": "another-test-package",
+    "author": "pypi-parker",
+    "author_email": "park-email@example-url.co.net",
+    "url": "example-url.co.net",
+    "description": "This package has been parked either for future use or to protect against typo misdirection. If you believe that it has been parked in error, please contact the package owner.",
+    "long_description": "\nWoo!\nOverriding the long description but not the short description.",
+    "classifiers": ["another thing", "thing 1"],
+    "version": "3.1.4"
+}

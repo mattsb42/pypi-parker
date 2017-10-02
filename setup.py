@@ -32,7 +32,7 @@ setup(
     version=get_version(),
     author='Matt Bullock',
     maintainer='Matt Bullock',
-    # author_email='',
+    author_email='matt.s.b.42@gmail.com',
     url='https://github.com/mattsb42/pypi-parker',
     description='',
     long_description=read('README.rst'),

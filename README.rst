@@ -71,7 +71,7 @@ Default Values
 * **classifiers** : ``Development Status :: 7 - Inactive``
 * **description** :
 
-    .. code-block:: none
+    .. code-block:: text
 
         This package has been parked either for future use or to protect against typo misdirection.
         If you believe that it has been parked in error, please contact the package owner.
@@ -79,8 +79,9 @@ Default Values
 Example
 -------
 
+**park.cfg**
+
 .. code-block:: ini
-    :caption: park.cfg
 
     [DEFAULT]
     author: mattsb42
@@ -96,8 +97,9 @@ Example
         Operating System :: OS Independent
         Topic :: Utilities
 
+**Generated setup.py**
+
 .. code-block:: python
-    :caption: Generated setup.py
 
     from setuptools import setup
 
@@ -116,8 +118,9 @@ Example
         ]
     )
 
+**Install attempt**
+
 .. code-block:: sh
-    :caption: Install attempt
 
     $ pip install my-package-name
     Processing my-package-name
@@ -133,7 +136,6 @@ Example
 
 Ok, how do I use it?
 ********************
-It's pretty simple, really.
 
 #. Install ``pypi-parker`` wherever you will be running your builds.
 
@@ -151,17 +153,18 @@ It's pretty simple, really.
     * If you want to use a custom config file, specify it with the ``park-config`` argument.
 
         .. code-block:: sh
-    
+
             python setup.py park --park-config={filename}
 
 #. Upload the resulting contents of ``dist`` to your package index of choice.
 
+**Example tox configuration**
+
 .. code-block:: ini
-    :caption: Example tox configuration
 
     [testenv:park]
     basepython = python3.6
-    deps = 
+    deps =
         setuptools
         pypi-parker
     commands = python setup.py park

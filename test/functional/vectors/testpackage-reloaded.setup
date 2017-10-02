@@ -1,0 +1,10 @@
+{
+    "name": "testpackage-reloaded",
+    "author": "pypi-parker",
+    "author_email": "park-email@example-url.co.net",
+    "url": "example-url.co.net",
+    "description": "This is a unique description. Locked by pypi-parker at example-url.co.net.",
+    "long_description": "This is a unique description. Locked by pypi-parker at example-url.co.net.",
+    "classifiers": ["Development Status :: 7 - Inactive"],
+    "version": "3.1.4"
+}

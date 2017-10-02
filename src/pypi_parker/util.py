@@ -5,7 +5,7 @@ from typing import Any
 __all__ = ('SpecificTemporaryFile',)
 
 
-class SpecificTemporaryFile(object):
+class SpecificTemporaryFile(object):  # pylint: disable=too-few-public-methods
     """Context manager for temporary files with a known desired name and body.
 
     :param name: Filename of file to create

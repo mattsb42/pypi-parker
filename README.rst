@@ -2,6 +2,17 @@
 pypi-parker
 ###########
 
+.. image:: https://img.shields.io/pypi/v/pypi-parker.svg
+   :target: https://pypi.python.org/pypi/pypi-parker
+   :alt: Latest Version
+
+.. image:: https://readthedocs.org/projects/pypi-parker/badge/
+   :target: https://pypi-parker.readthedocs.io/en/stable/
+   :alt: Documentation Status
+
+.. image:: https://travis-ci.org/mattsb42/pypi-parker.svg?branch=master
+   :target: https://travis-ci.org/mattsb42/pypi-parker
+
 ``pypi-parker`` lets you easily park package names on PyPI to protect users of your packages
 from typosquatting.
 

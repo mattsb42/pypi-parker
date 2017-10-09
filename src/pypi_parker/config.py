@@ -5,9 +5,10 @@ from typing import Dict, Iterator, Sequence, Union
 __all__ = ('load_config',)
 FALLBACK_VALUES = dict(
     classifiers=['Development Status :: 7 - Inactive'],
-    description=(
-        'This package has been parked either for future use or to protect against typo misdirection.'
-        ' If you believe that it has been parked in error, please contact the package owner.'
+    description='parked using pypi-parker',
+    long_description=(
+        'This package has been parked either for future use or to protect against typo misdirection.\n'
+        'If you believe that it has been parked in error, please contact the package owner.'
     )
 )
 STRING_LITERAL_KEYS = ('classifiers',)
@@ -30,9 +31,14 @@ def _update_description(setup_base: SETUP_CONFIG) -> None:
     try:
         description_keys = _string_literal_to_lines(setup_base.pop('description_keys'))
         description_setup = {key: str(setup_base[key]) for key in description_keys}  # type: Dict[str, str]
-        setup_base['description'] = str(setup_base['description']).format(**description_setup)
     except KeyError:
-        pass
+        return
+
+    for field in ('description', 'long_description'):
+        try:
+            setup_base[field] = str(setup_base[field]).format(**description_setup)
+        except KeyError:
+            pass
 
 
 def _update_string_literal_values(setup_base: SETUP_CONFIG) -> None:
@@ -46,12 +52,12 @@ def _update_string_literal_values(setup_base: SETUP_CONFIG) -> None:
 
 def _update_fallback_values(setup_base: SETUP_CONFIG) -> None:
     """Update ``setup_base`` with fallback values."""
+    if 'long_description' not in setup_base and 'description' in setup_base:
+        setup_base['long_description'] = setup_base['description']
+
     for key, value in FALLBACK_VALUES.items():
         if key not in setup_base:
             setup_base[key] = value
-
-    if 'long_description' not in setup_base:
-        setup_base['long_description'] = setup_base['description']
 
 
 def _generate_setup(config: configparser.ConfigParser, name: str) -> SETUP_CONFIG:
@@ -73,6 +79,9 @@ def _generate_setup(config: configparser.ConfigParser, name: str) -> SETUP_CONFI
     _update_description(setup_base)
     _update_string_literal_values(setup_base)
     _update_fallback_values(setup_base)
+
+    if len(setup_base['description'].splitlines()) > 1:
+        raise ValueError('Package "description" must be a single line.')
 
     return setup_base
 

@@ -31,7 +31,12 @@ def test_generate_setup(name):
 @pytest.mark.parametrize('name', TEST_PACKAGE_NAMES)
 def test_load_config(name):
     loaded_configs = [i for i in config.load_config(os.path.join(HERE, 'vectors', 'park.cfg'))]
-    print(loaded_configs)
-    print(read_setup_config(name))
 
     assert read_setup_config(name) in loaded_configs
+
+
+def test_load_config_newline_in_description():
+    with pytest.raises(ValueError) as excinfo:
+        [i for i in config.load_config(os.path.join(HERE, 'vectors', 'bad_description.cfg'))]
+
+    excinfo.match(r'Package "description" must be a single line.')

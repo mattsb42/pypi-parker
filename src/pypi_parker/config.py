@@ -80,7 +80,7 @@ def _generate_setup(config: configparser.ConfigParser, name: str) -> SETUP_CONFI
     _update_string_literal_values(setup_base)
     _update_fallback_values(setup_base)
 
-    if len(setup_base['description'].splitlines()) > 1:
+    if len(str(setup_base['description']).splitlines()) > 1:
         raise ValueError('Package "description" must be a single line.')
 
     return setup_base

@@ -1,6 +1,10 @@
 Changelog
 *********
 
+0.1.2
+=====
+* Minor fix to address mypy incompatibility
+
 0.1.1
 =====
 * Addressed `issue #1 <https://github.com/mattsb42/pypi-parker/issues/1>`_ to properly

@@ -72,15 +72,17 @@ Special Section Keys
   final ``description`` value.
 * ``classifiers`` : If multiple lines are provided for this value, and each line will be treated
   as a separate entry.
-* ``long_description`` : If not defined, ``description`` is used.
-* ``description`` : This value is also used for the ``ImportError`` message in the generated
-  ``setup.py``.
+* ``description`` :
+
+    * This value cannot contain multiple lines.
+    * This value is also used for the ``ImportError`` message in the generated ``setup.py``.
 
 Default Values
 ==============
 * **config file name** : ``park.cfg``
 * **classifiers** : ``Development Status :: 7 - Inactive``
-* **description** :
+* **description** : ``parked using pypi-parker``
+* **long_description** :
 
     .. code-block:: text
 

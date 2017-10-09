@@ -7,7 +7,7 @@ import sys
 from pypi_parker.build import generate_and_build_package
 from pypi_parker.config import load_config
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 
 class Park(Command):

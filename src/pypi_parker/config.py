@@ -29,7 +29,7 @@ def _string_literal_to_lines(string_literal: str) -> Sequence[str]:
 def _update_description(setup_base: SETUP_CONFIG) -> None:
     """Update description field with description keys if defined."""
     try:
-        description_keys = _string_literal_to_lines(setup_base.pop('description_keys'))
+        description_keys = _string_literal_to_lines(str(setup_base.pop('description_keys')))
         description_setup = {key: str(setup_base[key]) for key in description_keys}  # type: Dict[str, str]
     except KeyError:
         return

@@ -29,3 +29,5 @@ jobs:
         run: uv run ruff check
       - name: test
         run: uv run pytest
+      - name: self-test
+        run: uv run pypi-parker

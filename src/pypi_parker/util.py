@@ -1,11 +1,12 @@
 """Utility helpers for :class:`pypi_parker.Park`."""
+
 import os
 from typing import Any
 
-__all__ = ('SpecificTemporaryFile',)
+__all__ = ("SpecificTemporaryFile",)
 
 
-class SpecificTemporaryFile(object):  # pylint: disable=too-few-public-methods
+class SpecificTemporaryFile:  # pylint: disable=too-few-public-methods
     """Context manager for temporary files with a known desired name and body.
 
     :param name: Filename of file to create
@@ -19,7 +20,7 @@ class SpecificTemporaryFile(object):  # pylint: disable=too-few-public-methods
 
     def _write_file(self) -> None:
         """Write the requested body to the requested file."""
-        with open(self.name, 'w') as file:
+        with open(self.name, "w") as file:
             file.write(self.body)
 
     def _delete_file(self) -> None:

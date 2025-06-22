@@ -3,7 +3,7 @@ from setuptools import setup
 
 args = ' '.join(sys.argv).strip()
 if not any(args.endswith(suffix) for suffix in ['setup.py check -r -s', 'setup.py sdist']):
-    raise ImportError('parked using pypi-parker',)
+    raise ImportError('parked using pypi-parker')
 
 setup(
     author='pypi-parker',

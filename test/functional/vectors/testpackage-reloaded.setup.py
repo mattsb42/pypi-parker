@@ -3,7 +3,7 @@ from setuptools import setup
 
 args = ' '.join(sys.argv).strip()
 if not any(args.endswith(suffix) for suffix in ['setup.py check -r -s', 'setup.py sdist']):
-    raise ImportError('This is a unique description. Locked by pypi-parker at example-url.co.net.',)
+    raise ImportError('This is a unique description. Locked by pypi-parker at example-url.co.net.')
 
 setup(
     author='pypi-parker',

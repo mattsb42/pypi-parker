@@ -56,8 +56,8 @@ def _setup_body(setup_conf: SETUP_CONFIG) -> str:
 def generate_and_build_package(
     package_config: SETUP_CONFIG, origin_directory: str
 ) -> None:
-    """Generates, validates, and builds a package using the specified configuration and places
-    the resulting distributable files in ``{origin_directory}/dist``.
+    """Generates, validates, and builds a package using the specified configuration
+    and places the resulting distributable files in ``{origin_directory}/dist``.
 
     :param package_config: Package setup configuration
     :param origin_directory: Filepath to desired base output directory

@@ -2,19 +2,21 @@
 
 import configparser
 from collections.abc import Iterator, Sequence
-from typing import Dict, Union
+from typing import Union
 
 __all__ = ("SETUP_CONFIG", "load_config")
 FALLBACK_VALUES = dict(
     classifiers=["Development Status :: 7 - Inactive"],
     description="parked using pypi-parker",
     long_description=(
-        "This package has been parked either for future use or to protect against typo misdirection.\n"
-        "If you believe that it has been parked in error, please contact the package owner."
+        "This package has been parked either for future use "
+        "or to protect against typo misdirection.\n"
+        "If you believe that it has been parked in error, "
+        "please contact the package owner."
     ),
 )
 STRING_LITERAL_KEYS = ("classifiers",)
-SETUP_CONFIG = Dict[str, Union[str, Sequence[str]]]
+SETUP_CONFIG = dict[str, Union[str, Sequence[str]]]
 
 
 def _string_literal_to_lines(string_literal: str) -> Sequence[str]:

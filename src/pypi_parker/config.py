@@ -2,7 +2,7 @@
 import configparser
 from typing import Dict, Iterator, Sequence, Union
 
-__all__ = ('load_config',)
+__all__ = ('load_config', 'SETUP_CONFIG')
 FALLBACK_VALUES = dict(
     classifiers=['Development Status :: 7 - Inactive'],
     description='parked using pypi-parker',

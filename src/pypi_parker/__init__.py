@@ -10,7 +10,12 @@ from pypi_parker.config import load_config
 __version__ = importlib.metadata.version(__name__)
 
 
-def cli() -> None:
+def cli(args=None) -> None:
+    """
+    CLI entry point for pypi-parker.
+    """
+    if args is None:
+        args = sys.argv[1:]
     parser = argparse.ArgumentParser(
         description='Generate placeholder packages from pypi-parker configuration.',
     )
@@ -23,7 +28,7 @@ def cli() -> None:
     )
     parser.add_argument('--version', action='version', version=__version__)
 
-    args = parser.parse_args(sys.argv[1:])
+    args = parser.parse_args(args)
 
     if not args.config_file.is_file():
         parser.error('Configuration file "{}" does not exist'.format(args.config_file))
